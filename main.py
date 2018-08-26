@@ -15,7 +15,7 @@ def load_data(file_name):
 
     return data
 
-#process data as "1|XXXXX" : 26.39...
+#process data as time/stock ID pair and stock price
 def process_line(data):
     dic = {}
     for record in data:
