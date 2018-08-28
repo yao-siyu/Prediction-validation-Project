@@ -50,22 +50,28 @@ def average_error ():
             res[time] = [errors[pair], 1]
         else:
             res[time] = [res[time][0] + errors[pair], res[time][1] + 1]
+        last_record = time
 
     comparision = []
-    for time in res:
-        start = time
-        end = start + window - 1
+    start = 1
+    end = start + window - 1
+    while end <= last_record:
         temp = start
         total_nums = 0
         total_errors = 0
         while temp <= end:
             if temp in res:
-                total_errors = total_errors + res[start][0]
-                total_nums += total_nums + res[start][1]
+                total_errors = total_errors + res[temp][0]
+                total_nums = total_nums + res[temp][1]
             temp += 1
-        ave_error = "{0:.2f}".format(total_errors / total_nums)
-        comparision.append(str(start) + "|" + str(end) + "|" + str(ave_error))
-
+        try:
+            ave_error = "{0:.2f}".format(total_errors / total_nums)
+        except:
+            ave_error = "NA"
+        comparision.append(str(start) + "|" + str(end) + "|" + ave_error)
+        start += 1
+        end += 1   
+    
     #Generate output
     with open(output_file, 'w') as outfile:
         for i in comparision:
