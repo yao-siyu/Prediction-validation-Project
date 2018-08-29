@@ -3,14 +3,18 @@ import collections
 import sys
 
 # Open files
-def openFile(file_name):
+def loadData(file_name):
     file_path = abspath(file_name)
     try: # to deal with eage case of no file found
         handle = open(file_path)
     except:
         print("Cannot find file:", file_name)
-        
-    return handle
+    
+    data = []
+    for line in handle:
+        data.append(line)
+    
+    return data
 
 # Define Object class for per HourStats (including calculated error_sum and error_count)
 class HourStats(object):
@@ -38,9 +42,9 @@ def GetPricesAtHour(source, index, hour):
         break # quit function earlier in case the interested hour completed
     return stock_price, index
 
-window = int(openFile(sys.argv[1]).read().strip())
-sourceActual = openFile(sys.argv[2]).readlines()
-sourcePredicted = openFile(sys.argv[3]).readlines()
+window = int(loadData(sys.argv[1])[0])
+sourceActual = loadData(sys.argv[2])
+sourcePredicted = loadData(sys.argv[3])
 
 # Using sliding_window to calculate the errors by a given window size
 # use a deque to implement the sliding_window for better efficiency
