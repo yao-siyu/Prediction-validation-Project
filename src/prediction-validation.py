@@ -39,7 +39,7 @@ def GetPricesAtHour(source, index, hour):
         break # quit function earlier in case the interested hour completed
     return stock_price, index
 
-window = int(loadData(sys.argv[1]).strip())
+window = int(loadData(sys.argv[1][0]))
 sourceActual = loadData((sys.argv[2]))
 sourcePredicted = loadData(sys.argv[3])
 
