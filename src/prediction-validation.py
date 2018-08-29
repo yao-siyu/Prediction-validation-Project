@@ -1,81 +1,94 @@
 from os.path import abspath, exists
+import collections
 import sys
 
 #load data from files
-def load_data(file_name):
+def loadData(file_name):
     file_path = abspath(file_name)
-    try:
+    try: # to deal with eage case of no file found
         handle = open(file_path)
     except:
         print("Cannot find file:", file_name)
 
-    data = []
-    for line in handle:
-        data.append(line)
-
+    data = handle.readlines()
     return data
 
-#process data as time/stock ID pair and stock price
-def process_line(data):
-    dic = {}
-    for record in data:
-        details = record.split("|")
-        pair = details[0] + "|" + details[1]
-        price = float(details[2])
-        dic[pair] = price
+# Define Object class for per HourStats (including calculated error_sum and error_count)
+class HourStats(object):
+    def __init__(self, error_sum, error_count):
+        self.error_sum = error_sum
+        self.error_count = error_count
 
-    return dic
 
-#find the matched pair and compute error
-def compute_error(actual, predicted):
-    errors = {}
-    for pair in predicted:
-        if pair in actual:
-            errors[pair] = abs(actual[pair] - predicted[pair])
+# Define GetPricesAtHour, return stock_price array and its index
+#Time complexity is O(n)
+def GetPricesAtHour(source, index, hour):
+    stock_price = {}
+    index = 0
+    while index < len(source):
+        item = source[index].strip()
+        if not item: # to deal with edge case of NULL item
+            index += 1
+            continue
 
-    return errors
+        hr, name, price = item.split('|')
+        if int(hr) == hour:
+            stock_price[name] = float(price)
+            index += 1
+            continue
+        break # quit function earlier in case the interested hour completed
+    return stock_price, index
 
-#compute average error
-def average_error ():
-    actual = process_line(load_data(sys.argv[2]))
-    predicted = process_line(load_data(sys.argv[3]))
-    errors = compute_error(actual, predicted)
-    window = int(load_data(sys.argv[1])[0])
-    output_file = sys.argv[4]
-    res = {}
-    for pair in errors:
-        num = 0
-        time = int(pair.split("|")[0])
-        if time not in res:
-            res[time] = [errors[pair], 1]
+window = int(loadData(sys.argv[1]).strip())
+sourceActual = loadData((sys.argv[2]))
+sourcePredicted = loadData(sys.argv[3])
+
+# Using sliding_window to calculate the errors by a given window size
+# use a deque to implement the sliding_window for better efficiency
+sliding_window_stats = collections.deque()
+output = []
+stock_price = {}
+actIdx = preIdx = 0
+hr = 1	# starting hour
+total = 0
+count = 0
+
+while actIdx < len(sourceActual):
+    actual_prices, actIdx = GetPricesAtHour(sourceActual, actIdx, hr)
+    predicted_prices, preIdx = GetPricesAtHour(sourcePredicted, preIdx, hr)
+    total_errs = 0
+    cnt = 0
+
+    # calculate each matching error's sum and maintain its count
+    #Time complexity is O(n)
+    for name, price in predicted_prices.items():
+        if actual_prices[name]:
+            total_errs += abs(price - actual_prices[name])
+            cnt += 1
+
+    # use a sliding_window to maintain and update the calculated errors in given window
+    #Time complexity is O(n)
+    if len(sliding_window_stats) == window:
+        avg_err = total / float(count) if count != 0 else -1 # to deal with edge case of no avg_err in a window
+        output.append(avg_err)
+        stats = sliding_window_stats.popleft()
+        total -= stats.error_sum
+        count -= stats.error_count
+
+    total += total_errs
+    count += cnt
+    sliding_window_stats.append(HourStats(total_errs, cnt))
+
+    hr += 1
+
+avg_err = total / float(count) if count != 0 else -1
+output.append(avg_err)
+
+with open(sys.argv[4], 'w') as comparison_file:
+    for i, avg_err in enumerate(output):
+        line = '%d|%d|' % (i + 1, i + window)
+        if avg_err == -1:
+            line += 'NA'
         else:
-            res[time] = [res[time][0] + errors[pair], res[time][1] + 1]
-        last_record = time
-
-    comparision = []
-    start = 1
-    end = start + window - 1
-    while end <= last_record:
-        temp = start
-        total_nums = 0
-        total_errors = 0
-        while temp <= end:
-            if temp in res:
-                total_errors = total_errors + res[temp][0]
-                total_nums = total_nums + res[temp][1]
-            temp += 1
-        try:
-            ave_error = "{0:.2f}".format(total_errors / total_nums)
-        except:
-            ave_error = "NA"
-        comparision.append(str(start) + "|" + str(end) + "|" + ave_error)
-        start += 1
-        end += 1   
-    
-    #Generate output
-    with open(output_file, 'w') as outfile:
-        for i in comparision:
-            outfile.write(i + "\n")
-        outfile.close
-
-print(average_error())
+            line += '{:0.2f}'.format(avg_err)
+        comparison_file.write(line + '\n')
