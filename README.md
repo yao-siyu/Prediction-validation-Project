@@ -8,14 +8,14 @@
 
 
 - Various test cases (TC) have been tested and verified (for both Functionality and Performance of python source code):
-  -- TC1: Normal TC with small actual.txt (tested againest given ~10 actual stock prices and window size 2)
-  -- TC2: Normal TC with larger actual.txt (tested againest given ~1000 actual stock prices and SMALL window size 4)
-  -- TC3: Normal TC with larger actual.txt (tested againest given ~1000 actual stock prices and LARGE window size 200)
-  -- TC4: Large actual.txt and very small predicted.txt
-  -- TC5: Large window size and small window size 
-  -- TC6: Invalid actual.txt or predicted.txt or window.txt
-  -- TC7: Valid actual.txt with Empty predicted.txt
-  -- TC8: Empty actual.txt with un-Empty predicted.txt
+  - TC1: Normal TC with small actual.txt (tested againest given ~10 actual stock prices and window size 2)
+  - TC2: Normal TC with larger actual.txt (tested againest given ~1000 actual stock prices and SMALL window size 4)
+  - TC3: Normal TC with larger actual.txt (tested againest given ~1000 actual stock prices and LARGE window size 200)
+  - TC4: Large actual.txt and very small predicted.txt
+  - TC5: Large window size and small window size 
+  - TC6: Invalid actual.txt or predicted.txt or window.txt
+  - TC7: Valid actual.txt with Empty predicted.txt
+  - TC8: Empty actual.txt with un-Empty predicted.txt
 
 
 - Time complexity analysis:
