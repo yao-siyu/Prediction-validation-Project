@@ -5,7 +5,7 @@
   - Deque is used for the sliding_window implementation based on its optimized performance, i.e., amortized O(1) time complexity for pop() and append() operations.
 
 
-- Various test cases (TC) have been tested and verified (for both Functionality and Performance of python source code):
+- Test Cases (TC) validations for both Functionality and Performance:
   - TC1: Normal TC with small actual.txt (tested againest given ~10 actual stock prices and window size 2)
   - TC2: Normal TC with larger actual.txt (tested againest given ~1000 actual stock prices and SMALL window size 4)
   - TC3: Normal TC with larger actual.txt (tested againest given ~1000 actual stock prices and LARGE window size 200)
