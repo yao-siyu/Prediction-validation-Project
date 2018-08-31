@@ -3,6 +3,7 @@
 - Main python code: ./src/prediction-validation.py
   - A sliding_window is adopted to maintain the rolling source data over a pre-defined window size of K. 
   - Deque is used for the sliding_window implementation based on its optimized performance, i.e., amortized O(1) time complexity for pop() and append() operations.
+  - Error handling: to catch all the edge cases / potential exceptions in try blocks and handled in except blocks. 
 
 
 - Test Cases (TC) validations for both Functionality and Performance: ./insight_testsuite/tests/test_1-9
