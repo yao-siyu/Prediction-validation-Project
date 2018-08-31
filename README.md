@@ -11,9 +11,9 @@
   - TC2: Modified TC1 with larger window size of 1000
   - TC3: Large actual data (~1000) and very small predicted data (less than 10) with window size of 2
   - TC4: Modified TC3 with larger window size of 1000
-  - TC5: Valid actual data, but invalid predicted data
-  - TC6: Valid predicted data, but invalid actual data 
-  - TC7: Negative TC: window size larger than actual data size
+  - TC5: Negative TC: Valid actual data, but invalid predicted data
+  - TC6: Negative TC: Valid predicted data, but invalid actual data 
+  - TC7: window size larger than actual data size
   - TC8: Negative TC: (invalid) window size of 0
   - TC9: Negative TC: predicted data not exist in actual data
 
@@ -25,7 +25,7 @@
  
   
 - Further Improvements provided more resources:
-  - Has limited time (5 hours) to complete the project due to tight full-time work;
+  - Has limited time to complete the project due to tight full-time work schedule;
   - Further optimizations on time complexity might be possible;
   - Consider use Map reduce for larger scale data;
   - Extensive test case validation.
