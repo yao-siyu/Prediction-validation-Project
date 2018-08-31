@@ -8,7 +8,7 @@
 - Test Cases (TC) validations for both Functionality and Performance: ./insight_testsuite/tests/test_1-9
   - TC1: Given TC with over ~1000 actual and predicted stock prices and window size of 4
   - TC2: Modified TC1 with larger window size of 1000
-  - TC3: Large actual data (~1000) and very small predicted data (less than 10) with window size of 4
+  - TC3: Large actual data (~1000) and very small predicted data (less than 10) with window size of 2
   - TC4: Modified TC3 with larger window size of 1000
   - TC5: Valid actual data, but invalid predicted data
   - TC6: Valid predicted data, but invalid actual data 
