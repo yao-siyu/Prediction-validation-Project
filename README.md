@@ -5,15 +5,16 @@
   - Deque is used for the sliding_window implementation based on its optimized performance, i.e., amortized O(1) time complexity for pop() and append() operations.
 
 
-- Test Cases (TC) validations for both Functionality and Performance:
-  - TC1: Normal TC with small actual.txt (tested againest given ~10 actual stock prices and window size 2)
-  - TC2: Normal TC with larger actual.txt (tested againest given ~1000 actual stock prices and SMALL window size 4)
-  - TC3: Normal TC with larger actual.txt (tested againest given ~1000 actual stock prices and LARGE window size 200)
-  - TC4: Large actual.txt and very small predicted.txt
-  - TC5: Large window size and small window size 
-  - TC6: Invalid actual.txt or predicted.txt or window.txt
-  - TC7: Valid actual.txt with Empty predicted.txt
-  - TC8: Empty actual.txt with un-Empty predicted.txt
+- Test Cases (TC) validations for both Functionality and Performance: ./insight_testsuite/tests/test_1-9
+  - TC1: Given TC with over ~1000 actual and predicted stock prices and window size of 4
+  - TC2: Modified TC1 with larger window size of 1000
+  - TC3: Large actual data (~1000) and very small predicted data (less than 10) with window size of 4
+  - TC4: Modified TC3 with larger window size of 1000
+  - TC5: Valid actual data, but invalid predicted data
+  - TC6: Valid predicted data, but invalid actual data 
+  - TC7: Negative TC: window size larger than actual data size
+  - TC8: Negative TC: (invalid) window size of 0
+  - TC9: Negative TC: predicted data not exist in actual data
 
 
 - Time complexity analysis:
