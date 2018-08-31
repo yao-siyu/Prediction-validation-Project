@@ -46,15 +46,29 @@ def GetPricesAtHour(source, index, hour):
         break # to break out call earlier when the interested hour completed
     return stock_price, index
 
+try: 
+    with open(sys.argv[1], 'r') as window_file:
+        window = int(window_file.read().strip())
+    if window <= 0:
+        print('Window size must be a positive integer!')
+        sys.exit(1)
+except IOError as e:
+        print('Error in opening file!')
+        print(e)
 
-with open(sys.argv[1], 'r') as window_file:
-    window = int(window_file.read().strip())
+try: 
+    with open(sys.argv[2], 'r') as actual_file:
+        sourceActual = actual_file.readlines()
+except IOError as e:
+        print('Error in opening file!')
+        print(e)
 
-with open(sys.argv[2], 'r') as actual_file:
-    sourceActual = actual_file.readlines()
-
-with open(sys.argv[3], 'r') as predicted_file:
-    sourcePredicted = predicted_file.readlines()
+try:
+    with open(sys.argv[3], 'r') as predicted_file:
+        sourcePredicted = predicted_file.readlines()
+except IOError as e:
+        print('Error in opening file!')
+        print(e)
 
 
 """ 
@@ -80,7 +94,9 @@ while actIdx < len(sourceActual):
     # To calculate each matched errors, and maintain their sum and total count
     # Time complexity is O(n), where n is number of line/number from the source file 
     for name, price in predicted_prices.items():
-        if actual_prices[name]:
+	if name not in actual_prices:
+	    print('Invalid Stock in predictaed file detected!')
+	else:
             total_errs += abs(price - actual_prices[name])
             cnt += 1
 
